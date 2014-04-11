@@ -53,11 +53,11 @@ public class GetOrigChkID extends HttpServlet
         PrintWriter resp = response.getWriter();
 
         String OrigID = request.getParameter( "OrigID" );
-        List<CheckRecord> checkRecordList = daoGetData.getChk_ID_by_OrigID( OrigID );
+        List<CheckRecord> checkRecordList = daoGetData.get_Chk_ID_by_OrigID_asList( OrigID );
 
         resp.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
         resp.println( "<" + this.getClass().getSimpleName() + ">" );
-        resp.println( "  <num_records>" + daoGetData.getChk_ID_by_OrigID( OrigID ).size() + "</num_records>" );
+        resp.println( "  <num_records>" + daoGetData.get_Chk_ID_by_OrigID_asList( OrigID ).size() + "</num_records>" );
         for ( CheckRecord checkRecord : checkRecordList )
         {
             resp.println( "  <data_record>" );
@@ -84,7 +84,7 @@ public class GetOrigChkID extends HttpServlet
         resp.print( "doPost OrigID = " + OrigID + "<br>" );
         try
         {
-            resp.print( "chkID = " + daoGetData.getChk_ID_by_OrigID( OrigID ).get( 0 ).getID() );
+            resp.print( "chkID = " + daoGetData.get_Chk_ID_by_OrigID_asList( OrigID ).get( 0 ).getID() );
         }
         catch ( Exception e )
         {

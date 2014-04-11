@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
  * (c) Prelude Software - 2014 <br>
@@ -17,11 +17,13 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
  * </p>
  * 
  * @author Mark Levine
- * @version 0.1 test
+ * @version 0.2 test
  */
 
 public class GetOrigChkIdDao extends NamedParameterJdbcDaoSupport //JdbcDaoSupport //NamedParameterJdbcDaoSupport
 {
+    private String sql = "SELECT OrigID,ID from Chk WHERE OrigID = :OrigID";
+
 
     /**
      * This constructor is used only for debugging. Prints a message to stdout.
@@ -53,18 +55,16 @@ public class GetOrigChkIdDao extends NamedParameterJdbcDaoSupport //JdbcDaoSuppo
      *            Original ID
      * @return List of CheckRecord objects
      */
-    public List<CheckRecord> getChk_ID_by_OrigID(String OrigID)
+    public List<CheckRecord> get_Chk_ID_by_OrigID_asList(String OrigID)
     {
-        String sql = null;
-        SqlParameterSource namedParameters;
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-
-        sql = "SELECT OrigID,ID from Chk WHERE OrigID = :OrigID";
-        mapSqlParameterSource.addValue( "OrigID", OrigID );
-        namedParameters = mapSqlParameterSource;
-
         System.out.println( "getChk_ID_by_OrigID: " + sql );
-        return getNamedParameterJdbcTemplate().query( sql, namedParameters, new CheckRecordMapper() );
+        return getNamedParameterJdbcTemplate().query( sql, mapParameters( OrigID ), new CheckRecordMapper() );
+    }
+    
+    public SqlRowSet get_Chk_ID_by_OrigID_asSqlRowSet(String OrigID)
+    {
+        System.out.println( "getChk_ID_by_OrigID_xml: " + sql );
+        return getNamedParameterJdbcTemplate().queryForRowSet( sql, mapParameters( OrigID ) );
     }
 
     private static final class CheckRecordMapper implements RowMapper<CheckRecord>
@@ -79,6 +79,15 @@ public class GetOrigChkIdDao extends NamedParameterJdbcDaoSupport //JdbcDaoSuppo
 
             return checkRecord;
         }
+    }
+
+
+    private MapSqlParameterSource mapParameters(String OrigID)
+    {
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue( "OrigID", OrigID );
+        
+        return mapSqlParameterSource;
     }
 
 }

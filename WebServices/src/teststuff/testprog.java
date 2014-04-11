@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.preludesoftware.dao.DaoImplementation;
 import com.preludesoftware.model.CheckRecord;
 import com.preludesoftware.model.GetOrigChkIdDao;
+import com.preludesoftware.model.XmlOperations;
 
 public class testprog
 {
@@ -32,7 +34,7 @@ public class testprog
 
         System.out.println();
         sId = "12345";
-        checkRecordList = daoGetData.getChk_ID_by_OrigID( sId );
+        checkRecordList = daoGetData.get_Chk_ID_by_OrigID_asList( sId );
         System.out.println( "--records returned: " + checkRecordList.size() );
         System.out.printf( outputFormat, "Orig ID", "ID" );
         for ( CheckRecord checkRecord : checkRecordList )
@@ -41,8 +43,14 @@ public class testprog
         }
 
         System.out.println();
+        sId = "12345";
+        SqlRowSet sqlRowSet = daoGetData.get_Chk_ID_by_OrigID_asSqlRowSet( sId );
+        XmlOperations.setIndent( 2 );
+        System.out.println( XmlOperations.createXmlFromResultSet( sqlRowSet ) );
+
+        System.out.println();
         sId = "8224";
-        checkRecordList = daoGetData.getChk_ID_by_OrigID( sId );
+        checkRecordList = daoGetData.get_Chk_ID_by_OrigID_asList( sId );
         System.out.println( "--records returned: " + checkRecordList.size() );
         System.out.printf( outputFormat, "Orig ID", "ID" );
         for ( CheckRecord checkRecord : checkRecordList )
