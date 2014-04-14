@@ -11,6 +11,14 @@ import com.preludesoftware.model.CheckRecord;
 import com.preludesoftware.model.GetOrigChkIdDao;
 import com.preludesoftware.model.XmlOperations;
 
+/**
+ * Utility program for testing.
+ * <p>
+ * Tests stand-alone by directly calling the routines that are used by the web service.
+ * </p>
+ * @author Mark Levine
+ * @version 0.2 - &copy; Prelude Software, 2014.
+ */
 public class testprog
 {
 

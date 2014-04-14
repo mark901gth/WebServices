@@ -19,13 +19,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * (c) Prelude Software - 2014 <br>
+ * Convert Spring Jdbc SqlrowSet to XML.
  * <p>
  * Contains the methods that are used convert a Spring JDBC SqlRowSet to XML.
  * </p>
  * 
  * @author Mark Levine
- * @version 0.1 test
+ * @version 0.2 - &copy; Prelude Software, 2014.
  */
 
 public class XmlOperations
@@ -34,12 +34,17 @@ public class XmlOperations
 
 
     /**
-     * <p>
      * Creates a string containing the XML representation of the SqlRowSet
+     * <p>
+     * The first section of the XML is metadata containing the number of data rows
+     * and a list of the column names, types, and sizes.
+     * </p>
+     * <p>
+     * The second section containes the data rows.
      * </p>
      * 
      * @param sqlRowSet
-     *              Spring SqlRowSet
+     *              org.springframework.jdbc.support.rowset.SqlRowSet
      * @return
      *              String Containing the XML
      */

@@ -11,13 +11,13 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
- * (c) Prelude Software - 2014 <br>
+ * Web service class for /GetOrigChkID
  * <p>
  * This class contains the methods that are used by the web service classes in the "com.preludesoftware.web" package.
  * </p>
  * 
  * @author Mark Levine
- * @version 0.2 test
+ * @version 0.2 test - &copy; Prelude Software, 2014.
  */
 
 public class GetOrigChkIdDao extends NamedParameterJdbcDaoSupport //JdbcDaoSupport //NamedParameterJdbcDaoSupport
@@ -26,7 +26,7 @@ public class GetOrigChkIdDao extends NamedParameterJdbcDaoSupport //JdbcDaoSuppo
 
 
     /**
-     * This constructor is used only for debugging. Prints a message to stdout.
+     * This constructor is called by Spring.  For debugging purposes prints a message to stdout.
      */
     public GetOrigChkIdDao()
     {
@@ -53,20 +53,38 @@ public class GetOrigChkIdDao extends NamedParameterJdbcDaoSupport //JdbcDaoSuppo
      * 
      * @param OrigID
      *            Original ID
-     * @return List of CheckRecord objects
+     * @return List of com.preludesoftware.model.CheckRecord
      */
     public List<CheckRecord> get_Chk_ID_by_OrigID_asList(String OrigID)
     {
-        System.out.println( "getChk_ID_by_OrigID: " + sql );
+        System.out.println( "get_Chk_ID_by_OrigID_asList: " + sql );
         return getNamedParameterJdbcTemplate().query( sql, mapParameters( OrigID ), new CheckRecordMapper() );
     }
-    
+
+
+    /**
+     * <p>
+     * This method queries the database for Chk records that have the OrigID field thats matches the value of the input
+     * parameter OrigID
+     * </p>
+     * 
+     * @param OrigID
+     *            Original ID
+     * @return org.springframework.jdbc.support.rowset.SqlRowSet
+     */
     public SqlRowSet get_Chk_ID_by_OrigID_asSqlRowSet(String OrigID)
     {
-        System.out.println( "getChk_ID_by_OrigID_xml: " + sql );
+        System.out.println( "get_Chk_ID_by_OrigID_asSqlRowSet: " + sql );
         return getNamedParameterJdbcTemplate().queryForRowSet( sql, mapParameters( OrigID ) );
     }
 
+    
+    /**
+     * <p>
+     * Extracts the OrigID and ID fields from the ResultSet and builds a new
+     * checkRecord object which is returned.
+     * </p>
+     */
     private static final class CheckRecordMapper implements RowMapper<CheckRecord>
     {
         @Override
@@ -82,6 +100,13 @@ public class GetOrigChkIdDao extends NamedParameterJdbcDaoSupport //JdbcDaoSuppo
     }
 
 
+    /**
+     * <p>
+     * Utility routine which sets the parameter mapping for the SQL statement
+     * </p>
+     * @param OrigID Original ID
+     * @return org.springframework.jdbc.core.namedparam.MapSqlParameterSource
+     */
     private MapSqlParameterSource mapParameters(String OrigID)
     {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();

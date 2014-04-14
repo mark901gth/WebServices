@@ -8,14 +8,61 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * (c) Prelude Software - 2014 <br>
+ * This class contains the methods that are used for the DAO implementation.
  * <p>
- * This class contains the methods that are used for the DAO implementation. The setXX methods are called by Spring and
- * the getXX methods are used by the other classes and methods in this web service.
+ * Spring calls this and initializes the Jdbc Template.  Using jdbcTemplate eliminates the need for the
+ * more complex code shown below which includes managing the database connection, preparing SQL statements,
+ * parsing through the result set and handling exceptions.
  * </p>
- * 
+ * <p>
+ * The setXX methods are called by Spring and the getXX methods are used by the other classes
+ * and methods in this web service.
+ * </p>
  * @author Mark Levine
- * @version 0.1 test
+ * @version 0.1 test - &copy; Prelude Software, 2014.
+ * <pre>
+ * {@code
+ *    public Circle getCircle(int circleId)
+ *    {
+ *        Connection conn = null;
+ *
+ *        try
+ *        {
+ *            conn = dataSource.getConnection();
+ *
+ *            PreparedStatement ps = conn.prepareStatement( "SELECT * FROM circle where id = ?" );
+ *            ps.setInt( 1, circleId );
+ *
+ *            Circle circle = null;
+ *            ResultSet rs = ps.executeQuery();
+ *
+ *            if ( rs.next() )
+ *            {
+ *                circle = new Circle( circleId, rs.getString( "name" ) );
+ *            }
+ *            rs.close();
+ *            ps.close();
+ *
+ *            return circle;
+ *        }
+ *        catch ( Exception e )
+ *        {
+ *            throw new RuntimeException( e );
+ *        }
+ *        finally
+ *        {
+ *            try
+ *            {
+ *                conn.close();
+ *            }
+ *            catch ( SQLException e )
+ *            {
+ *                e.printStackTrace();
+ *            }
+ *        }
+ *    }
+ *}
+ *</pre>
  */
 
 @Component
@@ -28,7 +75,7 @@ public class DaoImplementation
 
 
     /**
-     * This constructor is used only for debugging. Prints a message to stdout.
+     * This constructor is called by Spring and for debugging purposed prints a message to stdout.
      */
     public DaoImplementation()
     {
@@ -168,4 +215,5 @@ public class DaoImplementation
     //    }
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
